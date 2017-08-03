@@ -6,8 +6,8 @@ const webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
 const nodemon = require("nodemon");
 
-const webpack_server_config = require("./webpack/webpack.server");
-const webpack_client_config = require("./webpack/webpack.client");
+const webpack_server_config = require("./webpack/webpack.server").createConfig;
+const webpack_client_config = require("./webpack/webpack.client").createConfig;
 const server_settings = require("./devenv-settings");
 
 function getWebpackConsoleStats(isProduction) {
@@ -117,7 +117,7 @@ function isProduction() {
 }
 function compileServer(callback) {
     printBuildType("Server");
-    webpack(webpack_server_config, (err, stats) => {
+    webpack(webpack_server_config(!isProduction()), (err, stats) => {
         if (err) {
             callback(err);
             return;
@@ -145,7 +145,7 @@ function runServer() {
 
 function complileClient(callback) {
     printBuildType("Client");
-    webpack(webpack_client_config, (err, stats) => {
+    webpack(webpack_client_config(!isProduction()), (err, stats) => {
         if (err) {
             callback(err);
             return;
@@ -155,7 +155,7 @@ function complileClient(callback) {
     })
 };
 function watchClient() {
-    const compiler = webpack(webpack_client_config);
+    const compiler = webpack(webpack_client_config(!isProduction()));
     const server = new WebpackDevServer(compiler, {
         publicPath: "/build/",
         disableHostCheck: true,

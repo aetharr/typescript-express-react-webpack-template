@@ -111,5 +111,5 @@ function createConfig(isDebug) {
     };
 };
 
-module.exports = createConfig(process.env.NODE_ENV !== 'production');
-//module.exports.create = createConfig;
+//module.exports = createConfig(process.env.NODE_ENV !== 'production');
+module.exports.createConfig = createConfig;
