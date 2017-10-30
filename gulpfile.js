@@ -103,6 +103,11 @@ gulp.task("prod",
         complileClient
     )
 );
+gulp.task("default",
+    gulp.series(
+        "dev"
+    )
+);
 
 function setDevelopmentEnv(callback) {
     process.env.NODE_ENV = "development";
